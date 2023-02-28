@@ -1,3 +1,4 @@
+import { AuthController } from "./controller/AuthController";
 import { UserController } from "./controller/UserController";
 import { WishListItemController } from "./controller/WishListController";
 import { auth } from "./middleware/auth";
@@ -42,5 +43,13 @@ export const Routes = [
     route: "/wish-list-items/:id",
     controller: WishListItemController,
     action: "remove",
+  },
+
+  //Routes for the authentication
+  {
+    method: "post",
+    route: "/auth/login",
+    controller: AuthController,
+    action: "login",
   },
 ];
