@@ -16,6 +16,7 @@ export const Routes = [
     route: "/users/:id",
     controller: UserController,
     action: "one",
+    middleware: [auth],
   },
   {
     method: "post",
