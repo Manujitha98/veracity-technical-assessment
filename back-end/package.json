@@ -1,7 +1,7 @@
 {
-   "name": "MyProject",
+   "name": "back-end",
    "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
+   "description": "Backend for the Veracity technical assessment",
    "type": "commonjs",
    "devDependencies": {
       "@types/node": "^16.11.10",

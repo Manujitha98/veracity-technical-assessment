@@ -17,6 +17,7 @@ AppDataSource.initialize()
     Routes.forEach((route) => {
       (app as any)[route.method](
         route.route,
+        route.middleware ? route.middleware : [],
         (req: Request, res: Response, next: Function) => {
           const result = new (route.controller as any)()[route.action](
             req,
@@ -43,15 +44,5 @@ AppDataSource.initialize()
     app.listen(process.env.PORT, () => {
       console.log(`Server started on port ${process.env.PORT} `);
     });
-
-    // // insert new users for test
-    // await AppDataSource.manager.save(
-    //   AppDataSource.manager.create(User, {
-    //     firstName: "Timber",
-    //     lastName: "Saw",
-    //     email: "Johndoe@gmail.com",
-    //     password: "asdasd",
-    //   })
-    // );
   })
   .catch((error) => console.log(error));

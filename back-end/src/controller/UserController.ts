@@ -1,6 +1,8 @@
 import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../entity/User";
+import * as bcrypt from "bcrypt";
+import generateAuthToken from "../helpers/generateAuthToekn";
 
 export class UserController {
   private userRepository = AppDataSource.getRepository(User);
@@ -21,19 +23,29 @@ export class UserController {
     if (!user) {
       return "unregistered user";
     }
+    //remove the password field from the response
+    delete user.password;
     return user;
   }
 
   async save(request: Request, response: Response, next: NextFunction) {
     const { firstName, lastName, email, password } = request.body;
 
+    //hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     const user = Object.assign(new User(), {
       firstName,
       lastName,
       email,
+      password: hashedPassword,
     });
 
-    return this.userRepository.save(user);
+    const saveduser = await this.userRepository.save(user);
+    console.log(saveduser);
+    const token = generateAuthToken(saveduser);
+    return token;
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {

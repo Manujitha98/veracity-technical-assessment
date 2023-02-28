@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 //export function to generate auth token
-export function generateAuthToken(user) {
+
+export default function generateAuthToken(user) {
   const token = jwt.sign(
     {
       id: user.id,

@@ -10,7 +10,7 @@ export class WishListItemController {
 
     //TODO: check if the movie exists in the users wish list
     const wishListItem = Object.assign(new WishListItem(), {
-      movieId,
+      movieId: parseInt(movieId),
       user: request.user.id,
     });
 

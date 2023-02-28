@@ -1,5 +1,6 @@
 import { UserController } from "./controller/UserController";
 import { WishListItemController } from "./controller/WishListController";
+import { auth } from "./middleware/auth";
 
 export const Routes = [
   //Routes for the users
@@ -14,7 +15,6 @@ export const Routes = [
     route: "/users/:id",
     controller: UserController,
     action: "one",
-    //TODO: middleware: [auth]
   },
   {
     method: "post",
@@ -35,6 +35,7 @@ export const Routes = [
     route: "/wish-list-items",
     controller: WishListItemController,
     action: "add",
+    middleware: [auth],
   },
   {
     method: "delete",
