@@ -1,18 +1,23 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { WishListItem } from "./WishListItem";
 
 @Entity()
 export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number
+  @Column()
+  firstName: string;
 
-    @Column()
-    firstName: string
+  @Column()
+  lastName: string;
 
-    @Column()
-    lastName: string
+  @Column()
+  email: string;
 
-    @Column()
-    age: number
+  @Column()
+  password: string;
 
+  @OneToMany(() => WishListItem, (wishlistitem) => wishlistitem.user)
+  wishListItems: WishListItem[];
 }

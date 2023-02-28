@@ -3,8 +3,10 @@ import * as bodyParser from "body-parser";
 import { Request, Response } from "express";
 import { AppDataSource } from "./data-source";
 import { Routes } from "./routes";
-import { User } from "./entity/User";
+import * as dotenv from "dotenv";
+// import { User } from "./entity/User";
 
+dotenv.config();
 AppDataSource.initialize()
   .then(async () => {
     // create express app
@@ -38,25 +40,18 @@ AppDataSource.initialize()
     // ...
 
     // start express server
-    app.listen(3000, () => {
-      console.log("Server started on port 3000");
+    app.listen(process.env.PORT, () => {
+      console.log(`Server started on port ${process.env.PORT} `);
     });
 
     // // insert new users for test
     // await AppDataSource.manager.save(
-    //     AppDataSource.manager.create(User, {
-    //         firstName: "Timber",
-    //         lastName: "Saw",
-    //         age: 27
-    //     })
-    // )
-
-    // await AppDataSource.manager.save(
-    //     AppDataSource.manager.create(User, {
-    //         firstName: "Phantom",
-    //         lastName: "Assassin",
-    //         age: 24
-    //     })
-    // )
+    //   AppDataSource.manager.create(User, {
+    //     firstName: "Timber",
+    //     lastName: "Saw",
+    //     email: "Johndoe@gmail.com",
+    //     password: "asdasd",
+    //   })
+    // );
   })
   .catch((error) => console.log(error));

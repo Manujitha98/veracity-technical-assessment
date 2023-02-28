@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { User } from "./entity/User";
+import { WishListItem } from "./entity/WishListItem";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -11,7 +12,7 @@ export const AppDataSource = new DataSource({
   database: "veracity",
   synchronize: true,
   logging: false,
-  entities: [User],
+  entities: [User, WishListItem],
   migrations: [],
   subscribers: [],
 });

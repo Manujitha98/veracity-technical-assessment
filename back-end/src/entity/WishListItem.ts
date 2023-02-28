@@ -1,16 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { User } from "./User";
 
 @Entity()
-export class User {
+export class WishListItem {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  firstName: string;
+  movieId: number;
 
-  @Column()
-  lastName: string;
-
-  @Column()
-  age: number;
+  @ManyToOne(() => User, (user) => user.wishListItems)
+  user: User;
 }

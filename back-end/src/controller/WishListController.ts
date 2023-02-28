@@ -1,50 +1,35 @@
 import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
-import { User } from "../entity/User";
+import { WishListItem } from "../entity/WishListItem";
 
-export class UserController {
-  private userRepository = AppDataSource.getRepository(User);
+export class WishListItemController {
+  private wishListItemRepository = AppDataSource.getRepository(WishListItem);
 
-  async all(request: Request, response: Response, next: NextFunction) {
-    return this.userRepository.find();
-  }
+  async add(request: Request, response: Response, next: NextFunction) {
+    const { movieId } = request.body;
 
-  async one(request: Request, response: Response, next: NextFunction) {
-    const id = parseInt(request.params.id);
-
-    const user = await this.userRepository.findOne({
-      where: { id },
+    //TODO: check if the movie exists in the users wish list
+    const wishListItem = Object.assign(new WishListItem(), {
+      movieId,
+      user: request.user.id,
     });
 
-    if (!user) {
-      return "unregistered user";
-    }
-    return user;
-  }
-
-  async save(request: Request, response: Response, next: NextFunction) {
-    const { firstName, lastName, age } = request.body;
-
-    const user = Object.assign(new User(), {
-      firstName,
-      lastName,
-      age,
-    });
-
-    return this.userRepository.save(user);
+    return this.wishListItemRepository.save(wishListItem);
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
     const id = parseInt(request.params.id);
 
-    let userToRemove = await this.userRepository.findOneBy({ id });
+    let wishListItemToRemove = await this.wishListItemRepository.findOneBy({
+      id,
+    });
 
-    if (!userToRemove) {
-      return "this user not exist";
+    if (!wishListItemToRemove) {
+      return "this wish list entry does not exist";
     }
 
-    await this.userRepository.remove(userToRemove);
+    await this.wishListItemRepository.remove(wishListItemToRemove);
 
-    return "user has been removed";
+    return "wish list item removed";
   }
 }
