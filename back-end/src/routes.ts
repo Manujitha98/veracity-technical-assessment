@@ -44,6 +44,7 @@ export const Routes = [
     route: "/wish-list-items/:id",
     controller: WishListItemController,
     action: "remove",
+    middleware: [auth],
   },
 
   //Routes for the authentication
