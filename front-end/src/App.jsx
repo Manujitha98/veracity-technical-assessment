@@ -1,5 +1,7 @@
-import "bootswatch/dist/cosmo/bootstrap.min.css";
-import { useState } from "react";
+import "bootswatch/dist/flatly/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
+
+import { useEffect, useState } from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -8,15 +10,24 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+//service imports
+import authService from "./services/authService";
+
 //compoent imports
 import { NavBar } from "./components/navbar";
 import { Homepage } from "./pages/HomePage/Homepage";
 import { Login } from "./pages/Login/Login";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Logout from "./utils/Logout";
+import SignUp from "./pages/SignUp/SignUp";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [user, setUser] = useState({});
+  useEffect(() => {
+    const user = authService.getCurrentUser();
+    setUser(user);
+  }, []);
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -25,10 +36,10 @@ function App() {
         element={<NavBar user={user} />}
         errorElement={<ErrorPage />}
       >
-        {/* <Route
-          path="/register"
-          element={user?.name ? <Navigate to="/" /> : <RegisterUser />}
-        /> */}
+        <Route
+          path="/sign-up"
+          element={user?.name ? <Navigate to="/" /> : <SignUp />}
+        />
         <Route
           path="/login"
           element={user?.name ? <Navigate to="/" /> : <Login />}
@@ -39,7 +50,12 @@ function App() {
     )
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <ToastContainer />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;

@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import { AppDataSource } from "./data-source";
 import { Routes } from "./routes";
 import * as dotenv from "dotenv";
-import cors from "cors";
+import * as cors from "cors";
 // import { User } from "./entity/User";
 
 dotenv.config();
