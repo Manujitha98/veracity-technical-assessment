@@ -1,4 +1,5 @@
 import { AuthController } from "./controller/AuthController";
+import { MoviesController } from "./controller/MoviesController";
 import { UserController } from "./controller/UserController";
 import { WishListItemController } from "./controller/WishListController";
 import { auth } from "./middleware/auth";
@@ -53,5 +54,19 @@ export const Routes = [
     route: "/auth/login",
     controller: AuthController,
     action: "login",
+  },
+
+  //Routes for the movies
+  {
+    method: "get",
+    route: "/movies",
+    controller: MoviesController,
+    action: "getAllMovies",
+  },
+  {
+    method: "get",
+    route: "/movies/:id",
+    controller: MoviesController,
+    action: "getMovieById",
   },
 ];
