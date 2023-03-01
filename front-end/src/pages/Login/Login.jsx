@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import authService from "../../services/authService";
 import "./login.css";
 
 export const Login = () => {
+  const [errors, setErrors] = useState({});
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -15,11 +17,15 @@ export const Login = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log(credentials);
-    e.preventDefault();
-    authService.login(credentials.email, credentials.password);
+    try {
+      await authService.login(credentials.email, credentials.password);
+      window.location.href = "/";
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        toast.error("Invalid email or password.");
+      }
+    }
   };
-
   return (
     <div className="div-center">
       <div className="content login-box">
@@ -54,6 +60,7 @@ export const Login = () => {
         <button
           className="btn btn-block btn-primary w-100 mt-md-2"
           onClick={handleSubmit}
+          disabled={!credentials.email || !credentials.password}
         >
           Login
         </button>

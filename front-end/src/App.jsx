@@ -1,4 +1,6 @@
 import "bootswatch/dist/flatly/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
+
 import { useEffect, useState } from "react";
 import {
   createBrowserRouter,
@@ -18,6 +20,7 @@ import { Login } from "./pages/Login/Login";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Logout from "./utils/Logout";
 import SignUp from "./pages/SignUp/SignUp";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [user, setUser] = useState({});
@@ -47,7 +50,12 @@ function App() {
     )
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <ToastContainer />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;
