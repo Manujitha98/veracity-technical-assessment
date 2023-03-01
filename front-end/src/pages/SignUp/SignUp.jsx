@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FormElement } from "../../components/FormElement";
+import { userService } from "../../services/userService";
 
 const SignUp = () => {
   const [userDetails, setUserDetails] = useState({
@@ -19,12 +20,11 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     try {
-      console.log(userDetails);
-      // await authService.sign(credentials.email, credentials.password);
-      // window.location.href = "/";
+      await userService.register(userDetails);
+      window.location.href = "/";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
-        toast.error("Invalid email or password.");
+        toast.error(ex.response.data);
       }
     }
   };
