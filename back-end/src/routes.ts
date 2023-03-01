@@ -13,9 +13,9 @@ export const Routes = [
   },
   {
     method: "get",
-    route: "/users/:id",
+    route: "/users/me",
     controller: UserController,
-    action: "one",
+    action: "myProfile",
     middleware: [auth],
   },
   {
