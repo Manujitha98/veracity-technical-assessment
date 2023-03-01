@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  Unique,
+} from "typeorm";
 import { WishListItem } from "./WishListItem";
 
 @Entity()
@@ -13,6 +19,7 @@ export class User {
   lastName: string;
 
   @Column()
+  @Unique(["email"])
   email: string;
 
   @Column()
