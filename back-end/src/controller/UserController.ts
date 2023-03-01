@@ -7,6 +7,7 @@ import generateAuthToken from "../helpers/generateAuthToekn";
 export class UserController {
   private userRepository = AppDataSource.getRepository(User);
 
+  //! get all users
   async all(request: Request, response: Response, next: NextFunction) {
     return (await this.userRepository.find()).filter((user) => {
       delete user.password;
@@ -14,7 +15,8 @@ export class UserController {
     });
   }
 
-  async one(request: Request, response: Response, next: NextFunction) {
+  //get the profile of the registered user
+  async myProfile(request: Request, response: Response, next: NextFunction) {
     const id = parseInt(request.user.id);
 
     //fetch the user data along with the wish list items
@@ -33,6 +35,7 @@ export class UserController {
     return user;
   }
 
+  //register a new user
   async save(request: Request, response: Response, next: NextFunction) {
     const { firstName, lastName, email, password } = request.body;
 
@@ -63,6 +66,7 @@ export class UserController {
     return token;
   }
 
+  //! delete a user
   async remove(request: Request, response: Response, next: NextFunction) {
     const id = parseInt(request.params.id);
 
