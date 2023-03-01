@@ -24,7 +24,7 @@ export class UserController {
     });
 
     if (!user) {
-      response.staus(404);
+      response.status(404);
       return "unregistered user";
     }
     //remove the password field from the response
@@ -35,6 +35,15 @@ export class UserController {
 
   async save(request: Request, response: Response, next: NextFunction) {
     const { firstName, lastName, email, password } = request.body;
+
+    //check if the user already exists
+    const existingUser = await this.userRepository.findOneBy({ email });
+
+    //if the user exists return an error
+    if (existingUser) {
+      response.status(400);
+      return "this email is already registered";
+    }
 
     //hash the password
     const salt = await bcrypt.genSalt(10);
