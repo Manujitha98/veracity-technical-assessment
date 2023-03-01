@@ -1,5 +1,5 @@
 import "bootswatch/dist/flatly/bootstrap.min.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -7,6 +7,9 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+
+//service imports
+import authService from "./services/authService";
 
 //compoent imports
 import { NavBar } from "./components/navbar";
@@ -18,6 +21,10 @@ import SignUp from "./pages/SignUp/SignUp";
 
 function App() {
   const [user, setUser] = useState({});
+  useEffect(() => {
+    const user = authService.getCurrentUser();
+    setUser(user);
+  }, []);
 
   const router = createBrowserRouter(
     createRoutesFromElements(
