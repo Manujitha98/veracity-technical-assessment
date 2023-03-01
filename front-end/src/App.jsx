@@ -1,4 +1,4 @@
-import "bootswatch/dist/cosmo/bootstrap.min.css";
+import "bootswatch/dist/flatly/bootstrap.min.css";
 import { useState } from "react";
 import {
   createBrowserRouter,
@@ -14,6 +14,7 @@ import { Homepage } from "./pages/HomePage/Homepage";
 import { Login } from "./pages/Login/Login";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Logout from "./utils/Logout";
+import SignUp from "./pages/SignUp/SignUp";
 
 function App() {
   const [user, setUser] = useState({});
@@ -25,10 +26,10 @@ function App() {
         element={<NavBar user={user} />}
         errorElement={<ErrorPage />}
       >
-        {/* <Route
-          path="/register"
-          element={user?.name ? <Navigate to="/" /> : <RegisterUser />}
-        /> */}
+        <Route
+          path="/sign-up"
+          element={user?.name ? <Navigate to="/" /> : <SignUp />}
+        />
         <Route
           path="/login"
           element={user?.name ? <Navigate to="/" /> : <Login />}
