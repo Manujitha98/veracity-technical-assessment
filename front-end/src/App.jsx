@@ -1,6 +1,6 @@
 import "bootswatch/dist/flatly/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
-
+import "./app.css";
 import { useEffect, useState } from "react";
 import {
   createBrowserRouter,
@@ -38,11 +38,11 @@ function App() {
       >
         <Route
           path="/sign-up"
-          element={user?.name ? <Navigate to="/" /> : <SignUp />}
+          element={user?.email ? <Navigate to="/" /> : <SignUp />}
         />
         <Route
           path="/login"
-          element={user?.name ? <Navigate to="/" /> : <Login />}
+          element={user?.email ? <Navigate to="/" /> : <Login />}
         />
         <Route path="/logout" element={<Logout />} />
         <Route index element={<Homepage />} />
