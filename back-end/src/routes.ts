@@ -65,6 +65,12 @@ export const Routes = [
   },
   {
     method: "get",
+    route: "/movies/search",
+    controller: MoviesController,
+    action: "searchMovie",
+  },
+  {
+    method: "get",
     route: "/movies/:id",
     controller: MoviesController,
     action: "getMovieById",
