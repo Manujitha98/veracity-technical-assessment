@@ -11,7 +11,7 @@ export async function login(email, password) {
     email,
     password,
   });
-  sessionStorage.setItem("token", jwt);
+  loginWithJwt(jwt);
 }
 
 export function loginWithJwt(jwt) {
