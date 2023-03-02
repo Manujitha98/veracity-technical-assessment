@@ -1,0 +1,28 @@
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+/* Set a max size for the movie images so they dont look massive */
+.img-thumbnail {
+  height: 10em;
+}
+
+/* vertically center the content in the table rows*/
+td {
+  vertical-align: middle;
+}
+
+/* View Icon*/
+.view-icon {
+  color: #007bff;
+  height: 2em;
+  cursor: pointer;
+}
