@@ -1,0 +1,9 @@
+/*reize image to be smaller*/
+.movieThumbnail {
+  width: 10em;
+}
+
+.chkd-unchkd {
+  width: 1.8em;
+  height: 1.8em;
+}

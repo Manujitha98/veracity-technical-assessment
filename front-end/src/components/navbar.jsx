@@ -47,7 +47,7 @@ export const NavBar = ({ user }) => {
               <>
                 {" "}
                 <li className="nav-item">
-                  <Link className="nav-link" to="/profile">
+                  <Link className="nav-link" to="/wish-list">
                     <FavoriteIcon id="favIconSVG" />
                   </Link>
                 </li>
