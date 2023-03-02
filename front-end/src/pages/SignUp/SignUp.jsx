@@ -101,7 +101,7 @@ const SignUp = () => {
           Sign Up
         </button>
         <hr />
-        <Link className="btn btn-block btn-primary w-100 mt-md-2" to="/sign-up">
+        <Link className="btn btn-block btn-primary w-100 mt-md-2" to="/login">
           Login
         </Link>
       </div>
