@@ -4,24 +4,26 @@ import { movieService } from "../../services/movieService";
 import { FormSelect } from "../../components/FormSelect";
 import { Table } from "../../components/Table";
 import { Pagination } from "../../components/Pagination";
+import { FormInput } from "../../components/FormInput";
 
 export const Homepage = () => {
   const [movies, setMovies] = useState([]);
   const [genreList, setGenreList] = useState([]);
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState("");
-  const [rating, setRating] = useState("");
-  const [year, setYear] = useState("");
-  const [order, setOrder] = useState("");
+  const [filter, setFilter] = useState({
+    search: "",
+    genre: "",
+    rating: "",
+    year: "",
+    order: "",
+  });
 
   useEffect(() => {
     initialize();
-  }, []);
+  }, [filter.genre, filter.rating, filter.year, filter.order]);
 
   const initialize = async (page = 1) => {
-    const response = await movieService.getAllMovies(page);
-    const movies = response.results;
+    const { results: movies } = await movieService.getAllMovies(page);
     const genres = movieService.getGenres();
     movies.forEach((movie) => {
       movie.genre = movie.genre_ids
@@ -34,25 +36,18 @@ export const Homepage = () => {
     setGenreList(genres);
   };
 
-  const handleGenreChange = (genre) => {
-    setSelectedGenre(genre);
-  };
-
   const handlePageChange = (page) => {
     setPage(page);
     initialize(page);
   };
 
-  const handleRatingChang = (rating) => {
-    setRating(rating);
-  };
-
-  const handleYearChange = (year) => {
-    setYear(year);
-  };
-
-  const handleOrderChange = (order) => {
-    setOrder(order);
+  const handleFilterUpdate = (e) => {
+    const { name, value } = e.target;
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      [name]: value,
+    }));
+    console.log(filter);
   };
 
   return (
@@ -63,6 +58,10 @@ export const Homepage = () => {
             type="text"
             className="form-control w-100"
             placeholder="Search"
+            name="search"
+            onChange={(e) => {
+              handleFilterUpdate(e);
+            }}
           />
         </div>
         <div className="col-2">
@@ -85,30 +84,35 @@ export const Homepage = () => {
       </div>
       <div className="row">
         <div className="col-3">
-          <FormSelect data={genreList} setSelection={handleGenreChange} />
+          <FormSelect
+            data={genreList}
+            setSelection={handleFilterUpdate}
+            name="genre"
+          />
         </div>
         <div className="col-3">
-          <select className="form-select">
-            <option value="">Select</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
+          <FormInput
+            type="number"
+            name="rating"
+            onChangeHandler={handleFilterUpdate}
+          />
         </div>
         <div className="col-3">
-          <select className="form-select">
-            <option value="">Select</option>
-            <option value="2011">2011</option>
-            <option value="2012">2012</option>
-          </select>
+          <FormInput
+            type="number"
+            name="year"
+            onChangeHandler={handleFilterUpdate}
+          />
         </div>
         <div className="col-3">
-          <select className="form-select">
-            <option value="">Select </option>
-            <option value="ASC">ASC</option>
-            <option value="DESC">DESC</option>
-          </select>
+          <FormSelect
+            data={[
+              { id: "title.ascending", name: "Title ASC" },
+              { id: "title.descending", name: "Title DSC" },
+            ]}
+            setSelection={handleFilterUpdate}
+            name="order"
+          />
         </div>
       </div>
       <div className="row">
