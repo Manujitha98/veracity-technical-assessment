@@ -1,8 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./homepage.css";
-import eyeicon from "../../assets/images/eye-icon.png";
+import { movieService } from "../../services/movieService";
+import { FormSelect } from "../../components/FormSelect";
+import { Table } from "../../components/Table";
+import { Pagination } from "../../components/Pagination";
 
 export const Homepage = () => {
+  const [movies, setMovies] = useState([]);
+  const [genreList, setGenreList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("");
+  const [rating, setRating] = useState("");
+  const [year, setYear] = useState("");
+  const [order, setOrder] = useState("");
+
+  useEffect(() => {
+    initialize();
+  }, []);
+
+  const initialize = async (page = 1) => {
+    const response = await movieService.getAllMovies(page);
+    const movies = response.results;
+    const genres = movieService.getGenres();
+    movies.forEach((movie) => {
+      movie.genre = movie.genre_ids
+        .map((genreId) => {
+          return genres.find((genre) => genre.id === genreId).name;
+        })
+        .join(", ");
+    });
+    setMovies(movies);
+    setGenreList(genres);
+  };
+
+  const handleGenreChange = (genre) => {
+    setSelectedGenre(genre);
+  };
+
+  const handlePageChange = (page) => {
+    setPage(page);
+    initialize(page);
+  };
+
+  const handleRatingChang = (rating) => {
+    setRating(rating);
+  };
+
+  const handleYearChange = (year) => {
+    setYear(year);
+  };
+
+  const handleOrderChange = (order) => {
+    setOrder(order);
+  };
+
   return (
     <div className="container">
       <div className="row mt-5">
@@ -33,15 +85,7 @@ export const Homepage = () => {
       </div>
       <div className="row">
         <div className="col-3">
-          <select className="form-select">
-            <option value="">Select</option>
-            <option value="Action">Action</option>
-            <option value="Adventure">Adventure</option>
-            <option value="Animation">Animation</option>
-            <option value="Biography">Biography</option>
-            <option value="Comedy">Comedy</option>
-            <option value="Crime">Crime</option>
-          </select>
+          <FormSelect data={genreList} setSelection={handleGenreChange} />
         </div>
         <div className="col-3">
           <select className="form-select">
@@ -69,36 +113,12 @@ export const Homepage = () => {
       </div>
       <div className="row">
         <div className="col-12">
-          <table className="table table-striped mt-5">
-            <thead>
-              <tr>
-                <th scope="col">Image</th>
-                <th scope="col">Title</th>
-                <th scope="col">Genre</th>
-                <th scope="col">Rating</th>
-                <th scope="col">Year</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  <img
-                    src="https://image.tmdb.org/t/p/w500/6CoRTJTmijhBLJTUNoVSUNxZMEI.jpg"
-                    alt="Avatar"
-                    className="img-thumbnail"
-                  />
-                </th>
-                <td>Harry Potter and the Deathly Hallows: Part 2</td>
-                <td>Adventure, Drama, Fantasy</td>
-                <td>8.1</td>
-                <td>2011</td>
-                <td>
-                  <img src={eyeicon} alt="edit" className="view-icon" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Table movies={movies} />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-12">
+          <Pagination page={page} handlePageChange={handlePageChange} />
         </div>
       </div>
     </div>
