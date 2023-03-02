@@ -1,12 +1,17 @@
 import { Link, Outlet } from "react-router-dom";
 import React from "react";
 
-export const NavBar = () => {
+//images
+import LogoutImage from "../assets/images/logout.png";
+//svg
+import { ReactComponent as FavoriteIcon } from "../assets/svgs/favorites.svg";
+
+export const NavBar = ({ user }) => {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <Link className="navbar-brand" to="/">
-          Home
+          Movies
         </Link>
         <button
           className="navbar-toggler"
@@ -24,26 +29,41 @@ export const NavBar = () => {
           id="navbarNav"
         >
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/sign-up">
-                Sign up
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/profile">
-                <img
-                  src="logo192.png"
-                  alt="Profile Picture"
-                  className="rounded-circle"
-                  style={{ width: "30px" }}
-                />
-              </Link>
-            </li>
+            {!user && (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/login">
+                    Login
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/sign-up">
+                    Sign up
+                  </Link>
+                </li>
+              </>
+            )}
+            {user && (
+              <>
+                {" "}
+                <li className="nav-item">
+                  <Link className="nav-link" to="/profile">
+                    <FavoriteIcon id="favIconSVG" />
+                  </Link>
+                </li>
+                <li className="nav-item pe-5 pt-2">{`${user.firstName} ${user.lastName}`}</li>
+                <li className="nav-item">
+                  <Link className="nav-link ps-5" to="/logout">
+                    <img
+                      src={LogoutImage}
+                      alt=""
+                      className="rounded-circle"
+                      style={{ width: "30px" }}
+                    />
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </nav>
