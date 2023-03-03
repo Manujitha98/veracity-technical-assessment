@@ -14,7 +14,7 @@ import {
 import authService from "./services/authService";
 
 //compoent imports
-import { NavBar } from "./components/Navbar";
+import { NavBar } from "./components/navbar";
 import { Homepage } from "./pages/HomePage/Homepage";
 import { Login } from "./pages/Login/Login";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";

@@ -1,9 +1,24 @@
-#favIconSVG {
-  width: 100%;
+.profileButton {
   height: 2em;
   fill: #2c3e50;
 }
 
-#favIconSVG:hover {
+.make-red:hover {
   fill: #e74c3c;
+  color: #e74c3c;
+}
+
+.logout-button {
+  height: 1.5em;
+  margin-top: -0.4em;
+}
+
+/* make the image have a border when hovered over without messing up the page layout*/
+.logout-button:hover {
+  border: 1px solid #000000;
+}
+
+/* make nav-item text bigger */
+.nav-item {
+  font-size: 1.5em;
 }
