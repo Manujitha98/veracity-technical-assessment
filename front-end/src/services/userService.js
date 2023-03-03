@@ -17,8 +17,18 @@ export async function register(user) {
   }
 }
 
+export async function getMyProfile() {
+  try {
+    const { data } = await http.get(`${endpoint}/users/me`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 const userService = {
   register,
+  getMyProfile,
 };
 
 export { userService };

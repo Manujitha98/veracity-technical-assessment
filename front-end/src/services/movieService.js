@@ -39,6 +39,7 @@ const movieService = {
   getAllMovies,
   getGenres,
   search,
+  getMovie,
 };
 
 export { movieService };
