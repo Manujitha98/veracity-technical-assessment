@@ -65,11 +65,21 @@ export const WishList = () => {
       </div>
       <hr />
       <div className="row">
-        <WishListContainer
-          wishListItems={wishListItems}
-          selectHandler={handleSelect}
-          selected={selected}
-        />
+        {wishListItems.length > 0 && (
+          <WishListContainer
+            wishListItems={wishListItems}
+            selectHandler={handleSelect}
+            selected={selected}
+          />
+        )}
+        {
+          //if wishListItems is empty, show a message
+          wishListItems.length === 0 && (
+            <div className="col-12">
+              <p className="h4">Your wish list is empty</p>
+            </div>
+          )
+        }
       </div>
     </div>
   );
