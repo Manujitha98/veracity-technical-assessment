@@ -1,12 +1,15 @@
 import { Link, Outlet } from "react-router-dom";
-import React from "react";
+import React, { useContext } from "react";
 
+//context
+import UserContext from "../context/UserContext";
 //images
 import LogoutImage from "../assets/images/logout.png";
 //svg
 import { ReactComponent as FavoriteIcon } from "../assets/svgs/favorites.svg";
 
-export const NavBar = ({ user }) => {
+export const NavBar = () => {
+  const { user } = useContext(UserContext);
   return (
     <>
       <nav className="navbar navbar-expand navbar-light bg-light">

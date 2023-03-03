@@ -24,6 +24,7 @@ import { ToastContainer } from "react-toastify";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import { WishList } from "./pages/WishList/WishList";
 import { MovieDetails } from "./pages/MovieDetails/MovieDetails";
+import UserContext from "./context/UserContext";
 
 function App() {
   const [user, setUser] = useState({});
@@ -34,11 +35,7 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route
-        path="/"
-        element={<NavBar user={user} />}
-        errorElement={<ErrorPage />}
-      >
+      <Route path="/" element={<NavBar />} errorElement={<ErrorPage />}>
         <Route
           path="/sign-up"
           element={user?.email ? <Navigate to="/" /> : <SignUp />}
@@ -63,7 +60,9 @@ function App() {
   return (
     <>
       <ToastContainer />
-      <RouterProvider router={router} />
+      <UserContext.Provider value={{ user }}>
+        <RouterProvider router={router} />
+      </UserContext.Provider>
     </>
   );
 }
