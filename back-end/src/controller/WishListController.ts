@@ -9,10 +9,13 @@ export class WishListItemController {
     const { movieId } = request.body;
 
     //check if the movie exists in the users wish list
-    const wishListItemFound = await this.wishListItemRepository.findOneBy({
-      movieId: parseInt(movieId),
-      user: request.user.id,
-    });
+    const wishListItemFound = await this.wishListItemRepository
+      .createQueryBuilder("wishListItem")
+      .innerJoinAndSelect("wishListItem.user", "user")
+      .where("wishListItem.movieId = :movieId", { movieId: movieId })
+      .andWhere("user.id = :userId", { userId: request.user.id })
+      .getOne();
+
     //if the movie exists in the wish list, return an error message
     if (wishListItemFound) {
       response.status(400);
@@ -20,8 +23,8 @@ export class WishListItemController {
     }
     //create a new wish list item
     const wishListItem = Object.assign(new WishListItem(), {
-      movieId: parseInt(movieId),
       user: request.user.id,
+      movieId: parseInt(movieId),
     });
 
     return this.wishListItemRepository.save(wishListItem);
@@ -34,12 +37,14 @@ export class WishListItemController {
 
     //loop through the array of movie ids
     for (const movie of movieList) {
+      //TODO:Fix this
       //check if the user has the movie in his wish list
-      let wishListItemToRemove = await this.wishListItemRepository.findOneBy({
-        movieId: movie,
-        user: request.user.id,
-      });
-
+      const wishListItemToRemove = await this.wishListItemRepository
+        .createQueryBuilder("wishListItem")
+        .innerJoinAndSelect("wishListItem.user", "user")
+        .where("wishListItem.movieId = :movieId", { movieId: movie })
+        .andWhere("user.id = :userId", { userId: request.user.id })
+        .getOne();
       //if the movie does not exist in the wish list, return an error message
       if (!wishListItemToRemove) {
         missingItems.push(movie);
