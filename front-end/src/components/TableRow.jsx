@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import eyeicon from "../assets/images/eye-icon.png";
 
 export const TableRow = ({ movie }) => {
@@ -16,7 +17,9 @@ export const TableRow = ({ movie }) => {
       <td>{movie.vote_average}</td>
       <td>{movie.release_date.split("-")[0]}</td>
       <td>
-        <img src={eyeicon} alt="edit" className="view-icon" />
+        <Link to={`/movie/${movie.id}`}>
+          <img src={eyeicon} alt="edit" className="view-icon" />
+        </Link>
       </td>
     </tr>
   );

@@ -23,6 +23,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import { ToastContainer } from "react-toastify";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import { WishList } from "./pages/WishList/WishList";
+import { MovieDetails } from "./pages/MovieDetails/MovieDetails";
 
 function App() {
   const [user, setUser] = useState({});
@@ -51,6 +52,8 @@ function App() {
         <Route element={<PrivateRoutes user={user} />}>
           <Route path="/wish-list" element={<WishList user={user} />} />
         </Route>
+
+        <Route path="/movie/:id" element={<MovieDetails />} />
 
         <Route index element={<Homepage />} />
       </Route>
