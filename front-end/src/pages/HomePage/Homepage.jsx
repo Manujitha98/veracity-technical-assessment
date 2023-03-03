@@ -6,6 +6,7 @@ import { Table } from "../../components/Table";
 import { Pagination } from "../../components/Pagination";
 import { FormInput } from "../../components/FormInput";
 import { filterMovies } from "../../helpers/filter";
+import { mergeMoviesWithGenre } from "../../helpers/mergeMoviesWithGenre";
 
 export const Homepage = () => {
   const [movies, setMovies] = useState([]);
@@ -24,25 +25,23 @@ export const Homepage = () => {
     initialize();
   }, []);
 
+  //initialize movies and genres
   const initialize = async (page = 1) => {
     const { results: movies } = await movieService.getAllMovies(page);
     const genres = movieService.getGenres();
-    movies.forEach((movie) => {
-      movie.genre = movie.genre_ids
-        .map((genreId) => {
-          return genres.find((genre) => genre.id === genreId).name;
-        })
-        .join(", ");
-    });
+    mergeMoviesWithGenre(movies, genres);
     setMovies(movies);
     setGenreList(genres);
   };
 
+  //handle pagination change
   const handlePageChange = (page) => {
+    if (filter.search === "") initialize(page);
+    else handleSearch(page);
     setPage(page);
-    initialize(page);
   };
 
+  //update filter state based on input change
   const handleFilterUpdate = (e) => {
     const { name, value } = e.target;
     setFilter((prevFilter) => ({
@@ -55,13 +54,15 @@ export const Homepage = () => {
     }
   };
 
-  const handleSearch = async () => {
+  //search movies based on search term and year if provided. can be called from pagination or search button
+  const handleSearch = async (pageValue) => {
     if (filter.search === "") return;
     const { results: movies } = await movieService.search(
       filter.search,
-      page,
+      pageValue ? pageValue : page,
       filter.year
     );
+    mergeMoviesWithGenre(movies, genreList);
     setMovies(movies);
   };
 
@@ -93,7 +94,10 @@ export const Homepage = () => {
           />
         </div>
         <div className="col-2">
-          <button className="btn btn-primary w-100" onClick={handleSearch}>
+          <button
+            className="btn btn-primary w-100"
+            onClick={() => handleSearch()}
+          >
             Search
           </button>
         </div>
