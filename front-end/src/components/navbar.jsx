@@ -9,21 +9,10 @@ import { ReactComponent as FavoriteIcon } from "../assets/svgs/favorites.svg";
 export const NavBar = ({ user }) => {
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link className="navbar-brand" to="/">
+      <nav className="navbar navbar-expand navbar-light bg-light">
+        <Link className="navbar-brand ms-5" to="/">
           Movies
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
         <div
           className="collapse navbar-collapse justify-content-end"
           id="navbarNav"
@@ -45,19 +34,16 @@ export const NavBar = ({ user }) => {
             )}
             {user && (
               <>
-                {" "}
+                <Link className="nav-link make-red " to="/wish-list">
+                  <FavoriteIcon className="profileButton make-red" />
+                  {`${user.firstName} ${user.lastName}`}
+                </Link>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/wish-list">
-                    <FavoriteIcon id="favIconSVG" />
-                  </Link>
-                </li>
-                <li className="nav-item pe-5 pt-2">{`${user.firstName} ${user.lastName}`}</li>
-                <li className="nav-item">
-                  <Link className="nav-link ps-5" to="/logout">
+                  <Link className="nav-link ps-5 me-4 " to="/logout">
                     <img
                       src={LogoutImage}
                       alt=""
-                      className="rounded-circle"
+                      className="logout-button"
                       style={{ width: "30px" }}
                     />
                   </Link>
