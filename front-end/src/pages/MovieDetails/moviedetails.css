@@ -1,0 +1,11 @@
+/* light grey border around the div that holds the movie poster image and align content to center*/
+.poster-holder {
+  border: 1px solid #ccc;
+  padding: 5px;
+  text-align: center;
+}
+
+.custom-muted-text {
+  color: #ccc;
+  font-size: 0.8em;
+}
