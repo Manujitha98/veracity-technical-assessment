@@ -34,7 +34,6 @@ export const NavBar = ({ user }) => {
             )}
             {user && (
               <>
-                {" "}
                 <Link className="nav-link make-red " to="/wish-list">
                   <FavoriteIcon className="profileButton make-red" />
                   {`${user.firstName} ${user.lastName}`}
