@@ -34,15 +34,19 @@ export const WishList = () => {
   };
 
   const initialize = async () => {
-    const data = await userService.getMyProfile();
-    //map the wishListItems array and find the movie by id
-    const wishListItems = await Promise.all(
-      data.wishListItems.map(async (item) => {
-        const movie = await movieService.getMovie(item.movieId);
-        return { ...item, movie };
-      })
-    );
-    setWishListItems(wishListItems);
+    try {
+      const data = await userService.getMyProfile();
+      //map the wishListItems array and find the movie by id
+      const wishListItems = await Promise.all(
+        data.wishListItems.map(async (item) => {
+          const movie = await movieService.getMovie(item.movieId);
+          return { ...item, movie };
+        })
+      );
+      setWishListItems(wishListItems);
+    } catch (error) {
+      toast.error("Please login to view your wish list");
+    }
   };
 
   useEffect(() => {
