@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./moviedetails.css";
 import LinkButton from "../../components/LinkButton";
+import { addToWishList } from "../../services/userService";
+import { toast } from "react-toastify";
 export const MovieDetails = () => {
   //movie id
   const movieId = useParams().id;
@@ -12,8 +14,17 @@ export const MovieDetails = () => {
 
   const getMovieDetails = async () => {
     const movie = await movieService.getMovie(movieId);
-    console.log(movie);
     setMovie(movie);
+  };
+
+  const handleAddToWishList = async () => {
+    try {
+      await addToWishList(movieId);
+      toast.success("Movie added to wish list");
+    } catch (ex) {
+      console.log(ex);
+      toast.error(ex.response.data);
+    }
   };
 
   useEffect(() => {
@@ -46,7 +57,12 @@ export const MovieDetails = () => {
                 </p>
               </div>
               <div className="col-md-4">
-                <button className="btn btn-primary">Add to WishList</button>
+                <button
+                  className="btn btn-primary"
+                  onClick={handleAddToWishList}
+                >
+                  Add to WishList
+                </button>
               </div>
             </div>
             <p className="h4 mt-md-5 fw-bold">Reviews</p>
