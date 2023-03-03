@@ -42,7 +42,7 @@ export const Routes = [
   },
   {
     method: "delete",
-    route: "/wish-list-items/:id",
+    route: "/wish-list-items",
     controller: WishListItemController,
     action: "remove",
     middleware: [auth],

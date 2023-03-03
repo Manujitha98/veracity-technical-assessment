@@ -3,13 +3,13 @@ import unchecked from "../assets/images/unchecked.png";
 import checked from "../assets/images/checked.png";
 import { ReactComponent as DeleteIcon } from "../assets/svgs/trash.svg";
 
-export const WishListRow = ({ item }) => {
+export const WishListRow = ({ item, selectHandler, selected }) => {
   const { movie } = item;
   return (
     <tr key={movie.id}>
       <td>
         <img
-          src={item.checked ? checked : unchecked}
+          src={selected.includes(movie.id) ? checked : unchecked}
           alt="selected?"
           className="chkd-unchkd"
         />
@@ -27,7 +27,7 @@ export const WishListRow = ({ item }) => {
         } - ${movie.genres.map((genre) => genre.name).join("/")}`}</p>
       </td>
       <td>
-        <DeleteIcon id="delete-icon" />
+        <DeleteIcon id="delete-icon" onClick={() => selectHandler(movie.id)} />
       </td>
     </tr>
   );

@@ -28,23 +28,34 @@ export class WishListItemController {
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
-    //The id of the movie to be removed is taken from url param
-    const id = parseInt(request.params.id);
+    //get the array of movie ids from the request body
+    const { movieList } = request.body;
+    const missingItems = [];
 
-    //check if the user has the movie in his wish list
-    let wishListItemToRemove = await this.wishListItemRepository.findOneBy({
-      movieId: id,
-      user: request.user.id,
-    });
+    //loop through the array of movie ids
+    for (const movie of movieList) {
+      //check if the user has the movie in his wish list
+      let wishListItemToRemove = await this.wishListItemRepository.findOneBy({
+        movieId: movie,
+        user: request.user.id,
+      });
 
-    //if the movie does not exist in the wish list, return an error message
-    if (!wishListItemToRemove) {
-      response.status(404);
-      return "this wish list entry does not exist";
+      //if the movie does not exist in the wish list, return an error message
+      if (!wishListItemToRemove) {
+        missingItems.push(movie);
+        continue;
+      }
+
+      //remove the movie from the wish list
+      await this.wishListItemRepository.remove(wishListItemToRemove);
     }
 
-    //remove the movie from the wish list
-    await this.wishListItemRepository.remove(wishListItemToRemove);
-    return "wish list item removed";
+    if (missingItems.length > 0) {
+      response.status(400);
+      return {
+        error: "Some movies were not found in your wish list",
+        missingItems,
+      };
+    } else return { message: "Movies removed from your wish list" };
   }
 }

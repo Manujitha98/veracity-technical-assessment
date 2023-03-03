@@ -26,9 +26,33 @@ export async function getMyProfile() {
   }
 }
 
+export async function addToWishList(movieId) {
+  try {
+    const { data } = await http.post(`${endpoint}/wish-list-items/`, {
+      movieId,
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function removeFromWishList(movieList) {
+  try {
+    const { data } = await http.delete(`${endpoint}/wish-list-items/`, {
+      data: { movieList },
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 const userService = {
   register,
   getMyProfile,
+  addToWishList,
+  removeFromWishList,
 };
 
 export { userService };
