@@ -14,13 +14,15 @@ import {
 import authService from "./services/authService";
 
 //compoent imports
-import { NavBar } from "./components/navbar";
+import { NavBar } from "./components/Navbar";
 import { Homepage } from "./pages/HomePage/Homepage";
 import { Login } from "./pages/Login/Login";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Logout from "./utils/Logout";
 import SignUp from "./pages/SignUp/SignUp";
 import { ToastContainer } from "react-toastify";
+import PrivateRoutes from "./utils/PrivateRoutes";
+import { WishList } from "./pages/WishList/WishList";
 
 function App() {
   const [user, setUser] = useState({});
@@ -45,6 +47,11 @@ function App() {
           element={user?.email ? <Navigate to="/" /> : <Login />}
         />
         <Route path="/logout" element={<Logout />} />
+
+        <Route element={<PrivateRoutes user={user} />}>
+          <Route path="/wish-list" element={<WishList user={user} />} />
+        </Route>
+
         <Route index element={<Homepage />} />
       </Route>
     )
