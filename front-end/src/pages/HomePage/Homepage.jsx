@@ -89,6 +89,13 @@ export const Homepage = () => {
     //update search params
     searchParams.set(name, value);
     setSearchParams(searchParams);
+    //if the input is search and is empty, reset the search params and load movies
+    if (name === "search" && value === "") {
+      searchParams.delete("search");
+      searchParams.delete("year");
+      setSearchParams(searchParams);
+      loadMovies();
+    }
   };
 
   //filter movies based on genre and rating
