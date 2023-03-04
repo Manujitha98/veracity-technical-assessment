@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+
 import "./homepage.css";
 import { movieService } from "../../services/movieService";
 import { FormSelect } from "../../components/FormSelect";
@@ -9,7 +11,11 @@ import { filterMovies } from "../../helpers/filter";
 import { mergeMoviesWithGenre } from "../../helpers/mergeMoviesWithGenre";
 
 export const Homepage = () => {
+  //search params
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [movies, setMovies] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [genreList, setGenreList] = useState([]);
   const [page, setPage] = useState(1);
@@ -21,24 +27,44 @@ export const Homepage = () => {
     order: "",
   });
 
+  //initialize
   useEffect(() => {
-    initialize();
+    loadMovies();
   }, []);
 
   //initialize movies and genres
-  const initialize = async (page = 1) => {
-    const { results: movies } = await movieService.getAllMovies(page);
+  const loadMovies = async () => {
     const genres = movieService.getGenres();
+    setGenreList(genres);
+
+    const search = searchParams.get("search") || "";
+    const genre = searchParams.get("genre") || "";
+    const rating = searchParams.get("rating") || "";
+    const year = searchParams.get("year") || "";
+    const order = searchParams.get("order") || "";
+    const page = parseInt(searchParams.get("page") || 1);
+    setFilter({ search, genre, rating, year, order });
+    setPage(page);
+
+    let response;
+    if (search !== "") {
+      response = await movieService.search(search, page, year);
+    } else {
+      response = await movieService.getAllMovies(page);
+    }
+    const movies = response.results;
+    setTotalPages(response.total_pages);
     mergeMoviesWithGenre(movies, genres);
     setMovies(movies);
-    setGenreList(genres);
   };
 
   //handle pagination change
   const handlePageChange = (page) => {
-    if (filter.search === "") initialize(page);
-    else handleSearch(page);
+    //update search params
+    searchParams.set("page", page);
+    setSearchParams(searchParams);
     setPage(page);
+    loadMovies(page);
   };
 
   //update filter state based on input change
@@ -48,22 +74,9 @@ export const Homepage = () => {
       ...prevFilter,
       [name]: value,
     }));
-    //trigger initialization if the search is empty
-    if (name === "search" && value === "") {
-      initialize();
-    }
-  };
-
-  //search movies based on search term and year if provided. can be called from pagination or search button
-  const handleSearch = async (pageValue) => {
-    if (filter.search === "") return;
-    const { results: movies } = await movieService.search(
-      filter.search,
-      pageValue ? pageValue : page,
-      filter.year
-    );
-    mergeMoviesWithGenre(movies, genreList);
-    setMovies(movies);
+    //update search params
+    searchParams.set(name, value);
+    setSearchParams(searchParams);
   };
 
   //filter movies based on genre and rating
@@ -99,7 +112,7 @@ export const Homepage = () => {
         <div className="col-2">
           <button
             className="btn btn-primary w-100"
-            onClick={() => handleSearch()}
+            onClick={() => loadMovies()}
           >
             Search
           </button>
@@ -155,7 +168,11 @@ export const Homepage = () => {
       </div>
       <div className="row">
         <div className="col-12">
-          <Pagination page={page} handlePageChange={handlePageChange} />
+          <Pagination
+            page={page}
+            handlePageChange={handlePageChange}
+            totalPages={totalPages}
+          />
         </div>
       </div>
     </div>
