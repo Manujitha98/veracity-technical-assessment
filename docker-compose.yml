@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+
+  mysql:
+    image: mysql:5
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=veracity
+    networks:
+      - my-network
+    container_name: mysql-container
+    healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+        timeout: 5s
+        retries: 10
+        interval: 5s
+
+  backend:
+    depends_on:
+      mysql:
+        condition: service_healthy
+    build: ./back-end
+    ports:
+      - "8000:8000"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - DB_HOST=mysql-container
+      - MOVIES_API_KEY=
+    networks:
+      - my-network
+    container_name: backend-container
+
+  frontend:
+    build: ./front-end
+    ports:
+      - "3000:3000"
+    networks:
+      - my-network
+    container_name: frontend-container
+
+networks:
+  my-network:
+    driver: bridge
