@@ -93,6 +93,7 @@ export const Homepage = () => {
     if (name === "search" && value === "") {
       searchParams.delete("search");
       searchParams.delete("year");
+      searchParams.delete("page");
       setSearchParams(searchParams);
       loadMovies();
     }

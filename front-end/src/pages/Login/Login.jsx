@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+//services
 import authService from "../../services/authService";
+//components
+import { toast } from "react-toastify";
+//css
 import "./login.css";
 
 export const Login = () => {
-  const [errors, setErrors] = useState({});
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",

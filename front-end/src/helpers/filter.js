@@ -1,4 +1,5 @@
 import _ from "lodash";
+// Filter movies by genre, rating and order
 export const filterMovies = (filter, movies) => {
   let filteredMovies = movies;
   if (filter.genre !== "") {

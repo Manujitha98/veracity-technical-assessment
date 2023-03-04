@@ -1,4 +1,5 @@
 import React from "react";
+//components
 import { TableRow } from "./TableRow";
 
 export const Table = ({ movies }) => {

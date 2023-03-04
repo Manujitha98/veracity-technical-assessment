@@ -1,4 +1,5 @@
 import React from "react";
+//assets and svgs
 import unchecked from "../assets/images/unchecked.png";
 import checked from "../assets/images/checked.png";
 import { ReactComponent as DeleteIcon } from "../assets/svgs/trash.svg";

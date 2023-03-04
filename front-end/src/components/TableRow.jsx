@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+//svg
 import eyeicon from "../assets/images/eye-icon.png";
 
 export const TableRow = ({ movie }) => {

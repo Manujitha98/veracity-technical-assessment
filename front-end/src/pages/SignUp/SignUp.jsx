@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+//services
+import { userService } from "../../services/userService";
+//components
 import { toast } from "react-toastify";
 import { FormElement } from "../../components/FormElement";
-import { userService } from "../../services/userService";
 
 const SignUp = () => {
   const [userDetails, setUserDetails] = useState({
