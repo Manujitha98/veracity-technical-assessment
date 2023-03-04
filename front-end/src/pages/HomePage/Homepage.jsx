@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+//CSS
 import "./homepage.css";
+//Services
 import { movieService } from "../../services/movieService";
+//Components
 import { FormSelect } from "../../components/FormSelect";
 import { Table } from "../../components/Table";
 import { Pagination } from "../../components/Pagination";
 import { FormInput } from "../../components/FormInput";
+//Helpers
 import { filterMovies } from "../../helpers/filter";
 import { mergeMoviesWithGenre } from "../../helpers/mergeMoviesWithGenre";
 
 export const Homepage = () => {
+  //search params
+  const [searchParams, setSearchParams] = useSearchParams();
+  //State
   const [movies, setMovies] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [genreList, setGenreList] = useState([]);
   const [page, setPage] = useState(1);
@@ -21,24 +30,53 @@ export const Homepage = () => {
     order: "",
   });
 
+  //initialize
   useEffect(() => {
-    initialize();
+    loadMovies();
   }, []);
 
   //initialize movies and genres
-  const initialize = async (page = 1) => {
-    const { results: movies } = await movieService.getAllMovies(page);
+  const loadMovies = async () => {
+    //get genres
     const genres = movieService.getGenres();
+    setGenreList(genres);
+    //get search params
+    const search = searchParams.get("search") || "";
+    const genre = searchParams.get("genre") || "";
+    const rating = searchParams.get("rating") || "";
+    const year = searchParams.get("year") || "";
+    const order = searchParams.get("order") || "";
+    const page = parseInt(searchParams.get("page") || 1);
+    //update filter state
+    setFilter({ search, genre, rating, year, order });
+    setPage(page);
+    //get movies
+    let response;
+    if (search !== "") {
+      response = await movieService.search(search, page, year);
+    } else {
+      response = await movieService.getAllMovies(page);
+    }
+    const movies = response.results;
+    setTotalPages(response.total_pages);
     mergeMoviesWithGenre(movies, genres);
     setMovies(movies);
-    setGenreList(genres);
+  };
+
+  const handleSearch = () => {
+    //update search params
+    searchParams.set("page", 1);
+    setSearchParams(searchParams);
+    loadMovies();
   };
 
   //handle pagination change
   const handlePageChange = (page) => {
-    if (filter.search === "") initialize(page);
-    else handleSearch(page);
+    //update search params
+    searchParams.set("page", page);
+    setSearchParams(searchParams);
     setPage(page);
+    loadMovies(page);
   };
 
   //update filter state based on input change
@@ -48,22 +86,16 @@ export const Homepage = () => {
       ...prevFilter,
       [name]: value,
     }));
-    //trigger initialization if the search is empty
+    //update search params
+    searchParams.set(name, value);
+    setSearchParams(searchParams);
+    //if the input is search and is empty, reset the search params and load movies
     if (name === "search" && value === "") {
-      initialize();
+      searchParams.delete("search");
+      searchParams.delete("year");
+      setSearchParams(searchParams);
+      loadMovies();
     }
-  };
-
-  //search movies based on search term and year if provided. can be called from pagination or search button
-  const handleSearch = async (pageValue) => {
-    if (filter.search === "") return;
-    const { results: movies } = await movieService.search(
-      filter.search,
-      pageValue ? pageValue : page,
-      filter.year
-    );
-    mergeMoviesWithGenre(movies, genreList);
-    setMovies(movies);
   };
 
   //filter movies based on genre and rating
@@ -81,6 +113,7 @@ export const Homepage = () => {
             className="form-control w-100"
             placeholder="Search"
             name="search"
+            value={filter.search}
             onChange={(e) => {
               handleFilterUpdate(e);
             }}
@@ -90,13 +123,17 @@ export const Homepage = () => {
           <FormInput
             type="number"
             name="year"
+            min="1900"
+            value={filter.year}
             onChangeHandler={handleFilterUpdate}
           />
         </div>
         <div className="col-2">
           <button
             className="btn btn-primary w-100"
-            onClick={() => handleSearch()}
+            onClick={() => {
+              handleSearch();
+            }}
           >
             Search
           </button>
@@ -120,6 +157,7 @@ export const Homepage = () => {
             data={genreList}
             setSelection={handleFilterUpdate}
             name="genre"
+            value={filter.genre}
           />
         </div>
         <div className="col-3">
@@ -128,6 +166,7 @@ export const Homepage = () => {
             name="rating"
             min="0"
             max="10"
+            value={filter.rating}
             onChangeHandler={handleFilterUpdate}
           />
         </div>
@@ -139,6 +178,7 @@ export const Homepage = () => {
             ]}
             setSelection={handleFilterUpdate}
             name="order"
+            value={filter.order}
           />
         </div>
       </div>
@@ -149,7 +189,11 @@ export const Homepage = () => {
       </div>
       <div className="row">
         <div className="col-12">
-          <Pagination page={page} handlePageChange={handlePageChange} />
+          <Pagination
+            page={page}
+            handlePageChange={handlePageChange}
+            totalPages={totalPages}
+          />
         </div>
       </div>
     </div>

@@ -1,11 +1,12 @@
 import React from "react";
 
-export const FormSelect = ({ data, setSelection, name }) => {
+export const FormSelect = ({ data, setSelection, name, value }) => {
   return (
     <select
       className="form-select"
       onChange={(e) => setSelection(e)}
       name={name}
+      value={value}
     >
       <option value="">Select</option>
       {data.map((item) => (
