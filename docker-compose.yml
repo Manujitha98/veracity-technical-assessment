@@ -11,10 +11,10 @@ services:
       - my-network
     container_name: mysql-container
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 5s
-      retries: 10
-      interval: 3s
+        test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+        timeout: 5s
+        retries: 10
+        interval: 5s
 
   backend:
     depends_on:
@@ -26,17 +26,13 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=123456
       - DB_HOST=mysql-container
-      - MOVIES_API_KEY=66896353ef65a24890a1e767599f85b6
+      - MOVIES_API_KEY=
     networks:
       - my-network
     container_name: backend-container
 
   frontend:
-    image: node:14
-    volumes:
-      - ./front-end:/app
-    working_dir: /app
-    command: npm start
+    build: ./front-end
     ports:
       - "3000:3000"
     networks:
