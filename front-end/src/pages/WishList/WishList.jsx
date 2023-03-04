@@ -1,9 +1,12 @@
-import "./wishlist.css";
 import { useEffect, useState } from "react";
+//services
 import { userService } from "../../services/userService";
 import { movieService } from "../../services/movieService";
+//compoents
 import { WishListContainer } from "../../components/WishListContainer";
 import { toast } from "react-toastify";
+//css
+import "./wishlist.css";
 
 export const WishList = () => {
   const [wishListItems, setWishListItems] = useState([]);

@@ -1,6 +1,6 @@
 import React from "react";
 import LinkButton from "../../components/LinkButton";
-
+//self explanatory :)
 const ErrorPage = () => {
   return (
     <div className="container">
