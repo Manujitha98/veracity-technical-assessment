@@ -11,8 +11,7 @@ This is a repo to hold the full stack application for the purpose of completing 
     Axios - HTTP Client
     React Router - Routing
     React Bootstrap - Styling
-    
-
+    PM2 - Process Manager
 
 ## Prerequisites
 
