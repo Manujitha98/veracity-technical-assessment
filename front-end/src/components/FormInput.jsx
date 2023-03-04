@@ -1,6 +1,6 @@
 import React from "react";
 
-export const FormInput = ({ onChangeHandler, type, name, min, max }) => {
+export const FormInput = ({ onChangeHandler, type, name, min, max, value }) => {
   return (
     <input
       className="form-control"
@@ -10,6 +10,7 @@ export const FormInput = ({ onChangeHandler, type, name, min, max }) => {
       placeholder={name}
       min={min}
       max={max}
+      value={value}
     />
   );
 };

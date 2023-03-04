@@ -81,6 +81,7 @@ export const Homepage = () => {
             className="form-control w-100"
             placeholder="Search"
             name="search"
+            value={filter.search}
             onChange={(e) => {
               handleFilterUpdate(e);
             }}
@@ -90,6 +91,8 @@ export const Homepage = () => {
           <FormInput
             type="number"
             name="year"
+            min="1900"
+            value={filter.year}
             onChangeHandler={handleFilterUpdate}
           />
         </div>
@@ -120,6 +123,7 @@ export const Homepage = () => {
             data={genreList}
             setSelection={handleFilterUpdate}
             name="genre"
+            value={filter.genre}
           />
         </div>
         <div className="col-3">
@@ -128,6 +132,7 @@ export const Homepage = () => {
             name="rating"
             min="0"
             max="10"
+            value={filter.rating}
             onChangeHandler={handleFilterUpdate}
           />
         </div>
@@ -139,6 +144,7 @@ export const Homepage = () => {
             ]}
             setSelection={handleFilterUpdate}
             name="order"
+            value={filter.order}
           />
         </div>
       </div>

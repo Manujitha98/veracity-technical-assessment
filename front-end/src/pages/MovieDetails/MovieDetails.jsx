@@ -1,12 +1,14 @@
 import ReactStars from "react-rating-stars-component";
 import { movieService } from "../../services/movieService";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./moviedetails.css";
 import LinkButton from "../../components/LinkButton";
 import { addToWishList } from "../../services/userService";
 import { toast } from "react-toastify";
+
 export const MovieDetails = () => {
+  const navigate = useNavigate();
   //movie id
   const movieId = useParams().id;
   //movie state
@@ -86,10 +88,8 @@ export const MovieDetails = () => {
               <p className="h3 mt-md-5">Synopsys</p>
               <p className="fw-bold">{movie.overview}</p>
             </div>
-            <div className="row">
-              <LinkButton className="btn btn-primary" to="/">
-                Go Back
-              </LinkButton>
+            <div className="row" onClick={() => navigate(-1)}>
+              <LinkButton className="btn btn-primary">Go Back</LinkButton>
             </div>
           </div>
         </div>
