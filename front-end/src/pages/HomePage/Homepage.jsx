@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-
+//CSS
 import "./homepage.css";
+//Services
 import { movieService } from "../../services/movieService";
+//Components
 import { FormSelect } from "../../components/FormSelect";
 import { Table } from "../../components/Table";
 import { Pagination } from "../../components/Pagination";
 import { FormInput } from "../../components/FormInput";
+//Helpers
 import { filterMovies } from "../../helpers/filter";
 import { mergeMoviesWithGenre } from "../../helpers/mergeMoviesWithGenre";
 
 export const Homepage = () => {
   //search params
   const [searchParams, setSearchParams] = useSearchParams();
-
+  //State
   const [movies, setMovies] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [filteredMovies, setFilteredMovies] = useState([]);
@@ -34,18 +37,20 @@ export const Homepage = () => {
 
   //initialize movies and genres
   const loadMovies = async () => {
+    //get genres
     const genres = movieService.getGenres();
     setGenreList(genres);
-
+    //get search params
     const search = searchParams.get("search") || "";
     const genre = searchParams.get("genre") || "";
     const rating = searchParams.get("rating") || "";
     const year = searchParams.get("year") || "";
     const order = searchParams.get("order") || "";
     const page = parseInt(searchParams.get("page") || 1);
+    //update filter state
     setFilter({ search, genre, rating, year, order });
     setPage(page);
-
+    //get movies
     let response;
     if (search !== "") {
       response = await movieService.search(search, page, year);
@@ -56,6 +61,13 @@ export const Homepage = () => {
     setTotalPages(response.total_pages);
     mergeMoviesWithGenre(movies, genres);
     setMovies(movies);
+  };
+
+  const handleSearch = () => {
+    //update search params
+    searchParams.set("page", 1);
+    setSearchParams(searchParams);
+    loadMovies();
   };
 
   //handle pagination change
@@ -112,7 +124,9 @@ export const Homepage = () => {
         <div className="col-2">
           <button
             className="btn btn-primary w-100"
-            onClick={() => loadMovies()}
+            onClick={() => {
+              handleSearch();
+            }}
           >
             Search
           </button>

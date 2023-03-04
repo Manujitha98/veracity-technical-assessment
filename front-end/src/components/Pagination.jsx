@@ -13,16 +13,16 @@ export const Pagination = ({ page, handlePageChange, totalPages }) => {
       <ul className="pagination justify-content-center">
         <li className={disabled()}>
           {page > 1 && (
-            <a className="page-link" onClick={() => handlePageChange(page - 1)}>
+            <p className="page-link" onClick={() => handlePageChange(page - 1)}>
               Previous
-            </a>
+            </p>
           )}
         </li>
         {page < totalPages && (
           <li className="page-item">
-            <a className="page-link" onClick={() => handlePageChange(page + 1)}>
+            <p className="page-link" onClick={() => handlePageChange(page + 1)}>
               Next
-            </a>
+            </p>
           </li>
         )}
       </ul>
