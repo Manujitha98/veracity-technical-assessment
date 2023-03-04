@@ -56,36 +56,36 @@ DB_NAME=veracity
 
 ```console
 npm install
-    ```
+```
 
 Then run the following command
 
 ```console
 npm run build
-    ```
+  ```
 Then run the following command
 
 ```console
 npm run start
-    ```
+  ```
 
 ### Front-End - navigate to the front-end folder and run the following command
 
 ```console
 npm install
-    ```
+  ```
 
 Then run the following command
 
 ```console
 npm run build
-    ```
+  ```
 
 Then run the following command
 
 ```console
 npm install -g serve
-    ```
+  ```
 
 Then run the following command
 
