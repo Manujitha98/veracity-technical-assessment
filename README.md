@@ -31,10 +31,10 @@ MOVIES_API_KEY=your api key
 
 To run the application, you will need to run the following commands:
 
-`````console
+```console
 docker-compose up
 
-`````
+```
 
 
 # Running the application without docker
@@ -45,51 +45,51 @@ First you will have to set up a mysql database and create a database called vera
 
 Then you will have to create a .env file in the back-end folder and add the following variables:
 
-`````console
+```console
 DB_HOST=your database host
 DB_USER=your database user
 MYSQL_ROOT_PASSWORD=your database password
 DB_NAME=veracity
-`````
+```
 
 ### Backend- navigate to the back-end folder and run the following command
 
-`````console
+```console
 npm install
-    `````
+    ```
 
 Then run the following command
 
-`````console
+```console
 npm run build
-    `````
+    ```
 Then run the following command
 
-`````console
+```console
 npm run start
-    `````
+    ```
 
 ### Front-End - navigate to the front-end folder and run the following command
 
-`````console
+```console
 npm install
-    `````
+    ```
 
 Then run the following command
 
-`````console
+```console
 npm run build
-    `````
+    ```
 
 Then run the following command
 
-`````console
+```console
 npm install -g serve
-    `````
+    ```
 
 Then run the following command
 
-`````console
+```console
 serve -s build
-`````
+```
 
