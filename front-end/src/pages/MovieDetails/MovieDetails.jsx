@@ -1,11 +1,17 @@
-import ReactStars from "react-rating-stars-component";
-import { movieService } from "../../services/movieService";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import "./moviedetails.css";
-import LinkButton from "../../components/LinkButton";
+//Services
+import { movieService } from "../../services/movieService";
 import { addToWishList } from "../../services/userService";
+//Context
+import UserContext from "../../context/UserContext";
+//Components
+import ReactStars from "react-rating-stars-component";
+import LinkButton from "../../components/LinkButton";
+//misc
 import { toast } from "react-toastify";
+//css
+import "./moviedetails.css";
 
 export const MovieDetails = () => {
   const navigate = useNavigate();
@@ -13,6 +19,8 @@ export const MovieDetails = () => {
   const movieId = useParams().id;
   //movie state
   const [movie, setMovie] = useState();
+  //load user context
+  const { user } = useContext(UserContext);
 
   const getMovieDetails = async () => {
     const movie = await movieService.getMovie(movieId);
@@ -59,12 +67,19 @@ export const MovieDetails = () => {
                 </p>
               </div>
               <div className="col-md-4">
-                <button
-                  className="btn btn-primary"
-                  onClick={handleAddToWishList}
-                >
-                  Add to WishList
-                </button>
+                {user && (
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleAddToWishList}
+                  >
+                    Add to WishList
+                  </button>
+                )}
+                {!user && (
+                  <LinkButton className="btn btn-primary" to="/login">
+                    Login to add to wishlist
+                  </LinkButton>
+                )}
               </div>
             </div>
             <p className="h4 mt-md-5 fw-bold">Reviews</p>
