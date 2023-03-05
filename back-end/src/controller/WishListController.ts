@@ -37,7 +37,6 @@ export class WishListItemController {
 
     //loop through the array of movie ids
     for (const movie of movieList) {
-      //TODO:Fix this
       //check if the user has the movie in his wish list
       const wishListItemToRemove = await this.wishListItemRepository
         .createQueryBuilder("wishListItem")
