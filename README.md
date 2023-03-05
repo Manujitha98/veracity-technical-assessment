@@ -22,9 +22,9 @@ OR
 
 if you dont want to use docker, you can always install node js and install the dependencies manually through npm.
 
-### Modify the docketr-compose.yml file to change the MOVIES_API_KEY variable to your own API key from https://www.themoviedb.org/
+#### create a .env file and add the MOVIES_API_KEY variable. get your own API key from https://www.themoviedb.org/
 
-MOVIES_API_KEY=your api key
+MOVIES_API_KEY=your_api_key
 
 # Running the application with docker
 
