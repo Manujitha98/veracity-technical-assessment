@@ -36,6 +36,7 @@ docker-compose up
 ```
 The application will be live on `localhost:3000/`
 
+
 # Running the application without docker
 
 ### Database
