@@ -5,7 +5,6 @@ import { AppDataSource } from "./data-source";
 import { Routes } from "./routes";
 import * as dotenv from "dotenv";
 import * as cors from "cors";
-// import { User } from "./entity/User";
 
 dotenv.config();
 AppDataSource.initialize()
@@ -38,9 +37,6 @@ AppDataSource.initialize()
         }
       );
     });
-
-    // setup express app here
-    // ...
 
     // start express server
     app.listen(process.env.PORT || 8000, () => {
