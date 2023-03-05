@@ -34,6 +34,7 @@ To run the application, you will need to run the following commands:
 docker-compose up
 
 ```
+The application will be live on `localhost:3000/`
 
 
 # Running the application without docker
